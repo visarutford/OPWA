@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body class="bodyIndex">
+  <div class="topnav">
+    <a class="active" href="index.html">OPWA</a>
+    <a href="index.html">PTT Oil Price</a>
+    <a href="exchangeRate.html">Exchange Rates</a>
+    <a href="usdtobaht.html">usdtobaht</a>
+  </div>
+    <h1 class="leftTitle">PTT Oil Price</h1>
+    <div class="dropdown leftTitle">
+        <select id="dropdownMenu" class="custom-select">
+          <option value="Diesel">Diesel</option>
+          <option value="Diesel B7">Diesel B7</option>
+          <option value="Gasohol E85">Gasohol E85</option>
+          <option value="Gasohol E20">Gasohol E20</option>
+          <option value="Gasohol 91">Gasohol 91</option>
+          <option value="Gasohol 95">Gasohol 95</option>
+          <option value="Gasoline 95">Gasoline 95</option>
+          <option value="Premium Diesel B7">Premium Diesel B7</option>
+          <option value="Super Power GSH95">Super Power GSH95</option>
+          <!-- เพิ่มตัวเลือกต่าง ๆ ตามต้องการ -->
+        </select>
+      </div>
+    <div id="tvchart" class="tvchart"></div>
+</body>
+<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+<script src="index.js"></script>
+</html>

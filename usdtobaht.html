@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="usdtobaht.css" />
+</head>
+<body class="bodyUsdToBaht">
+    <div class="topnav">
+        <a class="active" href="index.html">OPWA</a>
+        <a href="index.html">PTT Oil Price</a>
+        <a href="exchangeRate.html">Exchange Rates</a>
+        <a href="usdtobaht.html">usdtobaht</a>
+      </div>
+    <div class="wrapper">
+        <div class="app-details">
+          <img src="money-exchange.png" class="app-icon" />
+          <h1 class="app-title">Currency Converter</h1>
+        </div>
+        <div class="converter">
+            <label for="usdAmount">Enter amount in USD:</label>
+            <input type="number" id="usdAmount" name="usdAmount" min="0" step="0.01">
+            <button onclick="convertCurrency()" id="convert-button">Convert</button>
+        </div>
+        <div id="result"></div>
+      </div>
+</body>
+<script src="usdtobaht.js"></script>
+</html>
