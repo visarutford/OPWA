@@ -3,10 +3,10 @@ const getData = async () => {
   const resp = await res.text();
   const cdata = resp.split("\n").map((row) => {
     const [time1, time2, open, high, low, close] = row.split(",");
-    console.log("time1 = ", time1);
-    console.log("time2 = ", time2);
-    console.log("time = ", new Date(`${time1}, ${time2}`).getTime());
-    console.log("time test = ", new Date(`${time1} ${time2}`).getTime() / 1000);
+    // console.log("time1 = ", time1);
+    // console.log("time2 = ", time2);
+    // console.log("time = ", new Date(`${time1}, ${time2}`).getTime());
+    // console.log("time test = ", new Date(`${time1} ${time2}`).getTime() / 1000);
     const datetime = new Date(`${time1} ${time2}`).getTime() / 1000;
     return {
       time: datetime,

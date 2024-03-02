@@ -1,18 +1,31 @@
-fetch('https://www.exchangerates.org.uk/commodities_update.php?1708953275419', {
-  method: 'GET',
-  headers: {
-    'x-requested-with': 'XMLHttpRequest'
-  }
-})
-.then(response => {
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
-})
-.then(data => {
-  console.log(data); // นำข้อมูลไปใช้ต่อตามต้องการ
-})
-.catch(error => {
-  console.error('There was a problem with the fetch operation:', error);
-});
+function testApi() {
+  var url = "https://www.exchangerates.org.uk/commodities_update.php?1708953275419";
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.setRequestHeader("x-requested-with", "XMLHttpRequest");
+
+  xhr.onload = function () {
+      if (xhr.status == 200) {
+          console.log("Request successful!");
+          console.log("Response content:");
+          var data = JSON.parse(xhr.responseText);
+          var oilSgdData = data["OILSGD"];
+          if (oilSgdData) {
+              console.log("OILSGD data as JSON:");
+              console.log(JSON.stringify({"OILSGD": oilSgdData}, null, 4));
+          } else {
+              console.log("OILSGD data not found in response.");
+          }
+      } else {
+          console.log("Request failed with status code " + xhr.status);
+      }
+  };
+
+  xhr.onerror = function () {
+      console.log("An error occurred");
+  };
+
+  xhr.send();
+}
+
+testApi();

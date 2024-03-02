@@ -16,8 +16,11 @@ function convertCurrency() {
     })
     .then(response => response.json())
     .then(data => {
+        console.log("data = ",data)
         const exchangeRate = parseFloat(data.result.data.data_detail[0].mid_rate);
         console.log("exchangeRate = ",exchangeRate)
+        const exchangeRateTHB = parseFloat(data.result.data);
+        console.log("exchangeRateTHB = ",exchangeRateTHB)
         const thbAmount = usdAmount * exchangeRate;
         console.log("thbAmount = ",thbAmount)
         displayResult(thbAmount);
@@ -27,6 +30,7 @@ function convertCurrency() {
 
 function displayResult(thbAmount) {
     // แสดงผลลัพธ์
-    const resultElement = document.getElementById("result");
+    console.log("thbAmount = ",)
+    const resultElement = document.getElementById("result")
     resultElement.textContent = `Converted amount: ${thbAmount.toFixed(2)} THB`;
 }
