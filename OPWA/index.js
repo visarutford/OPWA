@@ -1,16 +1,3 @@
-// const optionMenu = document.querySelector(".select-menu"),
-//        selectBtn = optionMenu.querySelector(".select-btn"),
-//        options = optionMenu.querySelectorAll(".option"),
-//        sBtn_text = optionMenu.querySelector(".sBtn-text");
-// selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));
-// options.forEach(option =>{
-//     option.addEventListener("click", ()=>{
-//         let selectedOption = option.querySelector(".option-text").innerText;
-//         sBtn_text.innerText = selectedOption;
-//         optionMenu.classList.remove("active");
-//     });
-// });
-
 const selectElement = document.getElementById("dropdownMenu");
   
   selectElement.addEventListener("change", function() {
@@ -32,6 +19,34 @@ const dropdownMenu = document.getElementById("dropdownMenu");
 dropdownMenu.addEventListener("change", () => {
   handleSelection();
 });
+
+function handleTimeInterval() {
+  const timeInterval = document.getElementById("timeInterval").value;
+  let fileName = ""; // กำหนดชื่อไฟล์ตามช่วงเวลาที่เลือก
+  
+  switch (timeInterval) {
+    case "1":
+      // กำหนดชื่อไฟล์สำหรับข้อมูลของช่วงเวลา 1 วัน
+      fileName = "oil_prices/1_day_data.csv";
+      break;
+    case "7":
+      // กำหนดชื่อไฟล์สำหรับข้อมูลของช่วงเวลา 7 วัน
+      fileName = "oil_prices/7_days_data.csv";
+      break;
+    case "30":
+      // กำหนดชื่อไฟล์สำหรับข้อมูลของช่วงเวลา 1 เดือน
+      fileName = "oil_prices/1_month_data.csv";
+      break;
+    default:
+      // กำหนดชื่อไฟล์เริ่มต้นหรือช่วงเวลาที่ไม่ได้ระบุ
+      fileName = "oil_prices/Diesel.csv";
+      break;
+  }
+  
+  // เรียกใช้งานข้อมูลและแสดงกราฟตามช่วงเวลาที่เลือก
+  getDataAndDisplayChart(fileName);
+}
+
 
 async function handleSelection() {
   const selectedOption = dropdownMenu.value;

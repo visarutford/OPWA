@@ -1,31 +1,66 @@
-function testApi() {
-  var url = "https://www.exchangerates.org.uk/commodities_update.php?1708953275419";
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
-  xhr.setRequestHeader("x-requested-with", "XMLHttpRequest");
+import('node-fetch').then(fetch => {
+  const fs = require('fs');
+  const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
-  xhr.onload = function () {
-      if (xhr.status == 200) {
-          console.log("Request successful!");
-          console.log("Response content:");
-          var data = JSON.parse(xhr.responseText);
-          var oilSgdData = data["OILSGD"];
-          if (oilSgdData) {
-              console.log("OILSGD data as JSON:");
-              console.log(JSON.stringify({"OILSGD": oilSgdData}, null, 4));
+  async function fetchDataForSingleDay(date) {
+      try {
+          const url = `https://www.exchangerates.org.uk/commodities_update.php?${Date.parse(date)}`;
+          const headers = {
+              "x-requested-with": "XMLHttpRequest"
+          };
+          const response = await fetch.default(url, {
+              method: 'GET',
+              headers: headers
+          });
+          if (response.ok) {
+              const data = await response.json();
+              const oilSgdData = data["OILSGD"];
+              const record = {
+                  date: date,
+                  time: oilSgdData.time,
+                  value: oilSgdData.value,
+                  hi: oilSgdData.hi,
+                  lo: oilSgdData.lo,
+                  lastdaily: oilSgdData.lastdaily
+              };
+              return record;
           } else {
-              console.log("OILSGD data not found in response.");
+              console.log(`Failed to fetch data for ${date}. Status code: ${response.status}`);
+              return null;
           }
-      } else {
-          console.log("Request failed with status code " + xhr.status);
+      } catch (error) {
+          console.error(`An error occurred while fetching data for ${date}:`, error);
+          return null;
       }
-  };
+  }
 
-  xhr.onerror = function () {
-      console.log("An error occurred");
-  };
+  const csvWriter = createCsvWriter({
+      path: 'oil_singapore_single_day.csv',
+      header: [
+          { id: 'date', title: 'Date' },
+          { id: 'time', title: 'Time' },
+          { id: 'value', title: 'Value' },
+          { id: 'hi', title: 'High' },
+          { id: 'lo', title: 'Low' },
+          { id: 'lastdaily', title: 'Last Daily' }
+      ]
+  });
 
-  xhr.send();
-}
+  const targetDate = '2024-02-27'; // วันที่ต้องการดึงข้อมูล
 
-testApi();
+  fetchDataForSingleDay(targetDate)
+      .then(record => {
+          if (record !== null) {
+              csvWriter.writeRecords([record])
+                  .then(() => console.log('CSV file has been written successfully'))
+                  .catch(error => console.error('Error writing CSV file:', error));
+          } else {
+              console.log(`No data available for ${targetDate}`);
+          }
+      })
+      .catch(err => {
+          console.error('Error occurred while fetching data:', err);
+      });
+}).catch(err => {
+  console.error('Error occurred while importing node-fetch:', err);
+});

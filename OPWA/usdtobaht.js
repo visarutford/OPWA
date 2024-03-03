@@ -1,36 +1,34 @@
-function convertCurrency() {
-    // รับค่าจาก input
-    const usdAmount = parseFloat(document.getElementById("usdAmount").value);
-    console.log("usdAmount = ",usdAmount)
+const fetch = require('node-fetch');
 
-    // เรียกใช้งาน API เพื่อดึงข้อมูลราคาแลกเปลี่ยนสำหรับ USD ในวันปัจจุบัน
-    const today = new Date().toISOString().slice(0, 10);
-    console.log("today = ",today)
-    // const url = `https://apigw1.bot.or.th/bot/public/Stat-ExchangeRate/v2/DAILY_AVG_EXG_RATE/?currency=USD&start_period=${today}&end_period=${today}`;
-    const url = `https://apigw1.bot.or.th/bot/public/Stat-ExchangeRate/v2/DAILY_AVG_EXG_RATE/?currency=USD&start_period=2024-02-28&end_period=2024-02-28`;
-    fetch(url, {
-        headers: {
-            'x-ibm-client-id': '7d561185-b059-42b2-bc99-070f7250f64f',
-            'accept': 'application/json'
+async function testApi() {
+    const url = "https://www.exchangerates.org.uk/commodities_update.php?1708953275419";
+    const headers = {
+        "x-requested-with": "XMLHttpRequest"
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: headers
+        });
+
+        if (response.ok) {
+            console.log("Request successful!");
+            console.log("Response content:");
+            const data = await response.json();
+            const oilSgdData = data["OILSGD"];
+            if (oilSgdData) {
+                console.log("OILSGD data as JSON:");
+                console.log(JSON.stringify({"OILSGD": oilSgdData}, null, 4));
+            } else {
+                console.log("OILSGD data not found in response.");
+            }
+        } else {
+            console.error(`Request failed with status code ${response.status}`);
         }
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("data = ",data)
-        const exchangeRate = parseFloat(data.result.data.data_detail[0].mid_rate);
-        console.log("exchangeRate = ",exchangeRate)
-        const exchangeRateTHB = parseFloat(data.result.data);
-        console.log("exchangeRateTHB = ",exchangeRateTHB)
-        const thbAmount = usdAmount * exchangeRate;
-        console.log("thbAmount = ",thbAmount)
-        displayResult(thbAmount);
-    })
-    .catch(error => console.error('Error:', error));
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
 }
 
-function displayResult(thbAmount) {
-    // แสดงผลลัพธ์
-    console.log("thbAmount = ",)
-    const resultElement = document.getElementById("result")
-    resultElement.textContent = `Converted amount: ${thbAmount.toFixed(2)} THB`;
-}
+testApi();

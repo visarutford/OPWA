@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oil Prices</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Current Oil Prices</h1>
+    <button onclick="fetchOilPrices()">Fetch Prices</button>
+    <table id="oilPricesTable">
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+        </tr>
+    </table>
+
+    <script>
+        async function fetchOilPrices() {
+            console.log("11")
+            try {
+            console.log("22")
+
+                const response = await fetch("http://localhost:3002/getCurrentOilPrice?language=en");
+            console.log("33")
+
+                const data = await response.text();
+
+                // Parse the XML data
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data, "text/xml");
+                const fuelNodes = xmlDoc.querySelectorAll("FUEL");
+
+                let oilPricesHTML = "";
+
+                // Iterate through each fuel node and extract product and price
+                fuelNodes.forEach(node => {
+                    const product = node.querySelector("PRODUCT").textContent;
+                    const price = node.querySelector("PRICE").textContent;
+                    oilPricesHTML += `<tr><td>${product}</td><td>$${price}</td></tr>`;
+                });
+
+                // Update the table with the fetched oil prices
+                document.getElementById("oilPricesTable").innerHTML = oilPricesHTML;
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+    </script>
+</body>
+</html>

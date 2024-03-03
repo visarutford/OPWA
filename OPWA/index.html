@@ -18,7 +18,7 @@
         <img src="logo.png" alt="OPWA Logo" width="60px">
       </a>
       <a href="index.html" class="navHighCenter">PTT Oil Price</a>
-      <!-- <a href="oil_singapore.html" class="navHighCenter">Singapore Oil</a> -->
+      <a href="oil_singapore.html" class="navHighCenter">Singapore Oil</a>
       <a href="exchangeRate.html" class="navHighCenter">Exchange Rates</a>
       <a href="usdtobaht.html" class="navHighCenter">USD to THB</a>
     </div>
@@ -38,6 +38,12 @@
         </select>
       </div>
     </div>
+    <select id="timeInterval">
+      <option value="1">1 Day</option>
+      <option value="7">7 Days</option>
+      <option value="30">1 Month</option>
+    </select>
+    <button onclick="handleTimeInterval()">Apply</button>    
     <h3 class="leftTitle topTitle" id="titleGraph">Diesel</h3>
     <div id="tvchart" class="tvchart"></div>
   </body>
